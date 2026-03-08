@@ -1,0 +1,28 @@
+# SingBox конфигурация
+
+{
+  "route": {
+    "rules": [
+      {
+        "domain_suffix": ["ru"],
+        "outbound": "direct"
+      },
+      {
+        "geosite": ["category-ru"],
+        "outbound": "direct"
+      },
+      {
+        "geoip": ["ru"],
+        "outbound": "direct"
+      },
+      {
+        "domain_keyword": ["openai", "chatgpt"],
+        "outbound": "proxy"
+      },
+      {
+        "domain_keyword": ["discord"],
+        "outbound": "proxy"
+      }
+    ]
+  }
+}

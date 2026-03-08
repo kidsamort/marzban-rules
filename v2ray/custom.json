@@ -1,0 +1,33 @@
+# V2Ray конфигурация
+# {{ nodes.all | join('\n') }}
+
+{
+  "log": {
+    "loglevel": "warning"
+  },
+  "routing": {
+    "domainStrategy": "AsIs",
+    "rules": [
+      {
+        "type": "field",
+        "domain": ["domain:ru", "geosite:category-ru"],
+        "outboundTag": "direct"
+      },
+      {
+        "type": "field",
+        "ip": ["geoip:ru"],
+        "outboundTag": "direct"
+      },
+      {
+        "type": "field",
+        "domain": ["openai.com", "chatgpt.com"],
+        "outboundTag": "proxy"
+      },
+      {
+        "type": "field",
+        "domain": ["discord.com", "discordapp.com"],
+        "outboundTag": "proxy"
+      }
+    ]
+  }
+}
