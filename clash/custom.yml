@@ -1,0 +1,51 @@
+port: 7890
+mixed-port: 7893
+allow-lan: true
+mode: Rule
+log-level: info
+
+dns:
+  enable: true
+  listen: 0.0.0.0:1053
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  nameserver:
+    - https://dns.google/dns-query
+    - https://1.1.1.1/dns-query
+
+proxies:
+  # {{ nodes.all | join(', ') }}
+
+proxy-groups:
+  - name: 🚀 Выбор
+    type: select
+    proxies: [⚡ Авто, {{ nodes.all | join(', ') }}, DIRECT]
+
+  - name: ⚡ Авто
+    type: url-test
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 50
+    proxies: [{{ nodes.all | join(', ') }}]
+
+  - name: 👾 Discord
+    type: select
+    proxies: [⚡ Авто, {{ nodes.all | join(', ') }}]
+
+  - name: 🤖 AI
+    type: select
+    proxies: [⚡ Авто, {{ nodes.all | join(', ') }}]
+
+rules:
+  - GEOSITE,category-ru,DIRECT
+  - GEOIP,ru,DIRECT
+  - DOMAIN-SUFFIX,ru,DIRECT
+  - GEOSITE,yandex,DIRECT
+  - GEOSITE,vk,DIRECT
+  - GEOSITE,discord,👾 Discord
+  - DOMAIN-SUFFIX,discord.com,👾 Discord
+  - GEOSITE,openai,🤖 AI
+  - DOMAIN-SUFFIX,openai.com,🤖 AI
+  - GEOSITE,youtube,🚀 Выбор
+  - GEOSITE,instagram,🚀 Выбор
+  - MATCH,🚀 Выбор
